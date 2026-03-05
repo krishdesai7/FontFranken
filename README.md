@@ -1,21 +1,35 @@
 # Monaspace Frankenstein
 
-A Frankenstein font family that combines different [Monaspace](https://monaspace.githubnext.com/) font families into a single unified family called **Monaspace Frankenstein**. Each style variant (Regular, Bold, Italic, etc.) is actually a different Monaspace family, allowing you to get multiple distinct typefaces through standard font style selection.
+A Frankenstein font family that combines different [Monaspace](https://monaspace.githubnext.com/) font families into a single unified family called **Monaspace Frankenstein**. Each style variant (Regular, Bold, Italic, Bold Italic) is actually a different Monaspace family, allowing you to get multiple distinct typefaces through standard font style selection.
+
+## Why?
+
+Editors like VS Code and Cursor let you assign `fontStyle` per syntax scope via `editor.tokenColorCustomizations`. By mapping each style to a different Monaspace family, you can visually distinguish keywords, comments, functions, and regular code — each rendered in a completely different typeface.
 
 ## Variant Mapping
 
 All variants have `fsSelection` bit 7 (`USE_TYPO_METRICS`) set.
 
-| Variant              | fsSelection Bits | Source Font          | Weight | usWeightClass |
-|----------------------|------------------|----------------------|--------|---------------|
-| Regular              | 6                | Monaspace Xenon      | 400    | 400           |
-| Bold                 | 5                | Monaspace Krypton    | 400    | 700           |
-| Italic               | 0                | Monaspace Radon      | 400    | 400           |
-| Underlined           | 1                | Monaspace Neon       | 400    | 400           |
-| Bold Italic          | 5, 0             | Monaspace Argon      | 400    | 700           |
-| Bold Underlined      | 5, 1             | Monaspace Xenon      | 600    | 700           |
-| Italic Underlined    | 0, 1             | Monaspace Krypton    | 600    | 400           |
-| Bold Italic Underlined | 5, 0, 1        | Monaspace Radon      | 600    | 700           |
+| fontStyle       | Font Variant     | Source Font      | Instance | usWeightClass |
+|-----------------|------------------|------------------|----------|---------------|
+| *(regular)*     | Regular          | Monaspace Xenon  | 400      | 400           |
+| **bold**        | Bold             | Monaspace Krypton| 400      | 700           |
+| *italic*        | Italic           | Monaspace Radon  | 400      | 400           |
+| ***bold italic*** | Bold Italic    | Monaspace Argon  | 400      | 700           |
+
+The build also produces Underlined variants (using `fsSelection` bit 1) for completeness, but VS Code/Cursor render `underline` as a text decoration rather than selecting a font variant, so these are not usable for font differentiation in practice.
+
+<details>
+<summary>Additional variants (not usable in VS Code/Cursor)</summary>
+
+| Variant                | Source Font      | Instance | usWeightClass |
+|------------------------|------------------|----------|---------------|
+| Underlined             | Monaspace Neon   | 400      | 400           |
+| Bold Underlined        | Monaspace Xenon  | 600      | 700           |
+| Italic Underlined      | Monaspace Krypton| 600      | 400           |
+| Bold Italic Underlined | Monaspace Radon  | 600      | 700           |
+
+</details>
 
 ## Prerequisites
 
@@ -24,7 +38,7 @@ All variants have `fsSelection` bit 7 (`USE_TYPO_METRICS`) set.
 
 ## Source Fonts
 
-Place these Monaspace variable font TTF files in the project root:
+Download the [Monaspace](https://monaspace.githubnext.com/) variable font TTFs and place them in the project root:
 
 - `Monaspace Argon Var.ttf`
 - `Monaspace Krypton Var.ttf`
@@ -40,20 +54,50 @@ These are variable fonts with axes for weight (200-800), width (100-125), and sl
 uv run python3 build_frankenstein.py
 ```
 
-This produces 8 static TTF files and corresponding TTX files for inspection:
+This produces 8 static TTF files (and corresponding TTX files for inspection). Install the 4 main TTFs to your system:
 
 ```
 MonaspaceFrankenstein-Regular.ttf
 MonaspaceFrankenstein-Bold.ttf
 MonaspaceFrankenstein-Italic.ttf
-MonaspaceFrankenstein-Underlined.ttf
 MonaspaceFrankenstein-BoldItalic.ttf
-MonaspaceFrankenstein-BoldUnderlined.ttf
-MonaspaceFrankenstein-ItalicUnderlined.ttf
-MonaspaceFrankenstein-BoldItalicUnderlined.ttf
 ```
 
-## What the Build Does
+## VS Code / Cursor Setup
+
+Set the editor font family:
+
+```json
+"editor.fontFamily": "'Monaspace Frankenstein'"
+```
+
+Then add `textMateRules` to assign different typefaces to different syntax scopes:
+
+```json
+"editor.tokenColorCustomizations": {
+  "textMateRules": [
+    {
+      "name": "Comments → Radon (italic)",
+      "scope": "comment, punctuation.definition.comment",
+      "settings": { "fontStyle": "italic" }
+    },
+    {
+      "name": "Keywords → Krypton (bold)",
+      "scope": "keyword, storage.type, storage.modifier, keyword.operator.expression, keyword.operator.new, variable.language.this, variable.language.self, variable.language.super",
+      "settings": { "fontStyle": "bold" }
+    },
+    {
+      "name": "Functions → Argon (bold italic)",
+      "scope": "entity.name.function, support.function, meta.function-call entity.name.function, support.method",
+      "settings": { "fontStyle": "bold italic" }
+    }
+  ]
+}
+```
+
+Everything not matched by a rule renders in the default Regular style (Xenon).
+
+## How the Build Works
 
 1. Loads each source variable font (TTF)
 2. Pins all variation axes (`wght`, `wdth`, `slnt`) using `fontTools.varLib.instancer` to create a static instance
@@ -61,11 +105,3 @@ MonaspaceFrankenstein-BoldItalicUnderlined.ttf
 4. Sets `OS/2.fsSelection`, `OS/2.usWeightClass`, `head.macStyle`, and `post.italicAngle`
 5. Rewrites the `name` table (family name, subfamily, PostScript name, etc.) to "Monaspace Frankenstein"
 6. Saves the result as a static TTF and a TTX (XML) for inspection
-
-## Regenerating TTX from TTF
-
-To convert the source variable fonts to TTX for manual inspection:
-
-```sh
-uvx fonttools ttx *.ttf
-```

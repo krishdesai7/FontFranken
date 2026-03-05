@@ -8,3 +8,6 @@ dependencies = [
     "brotli>=1.2.0",
     "fonttools[instancer]>=4.61.1",
 ]
+
+[tool.pyrefly]
+python-interpeter-path = ".venv/bin/python"

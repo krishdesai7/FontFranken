@@ -1,4 +1,3 @@
-#!./venv/bin/python
 """Build Monaspace Frankenstein font family from Monaspace variable fonts.
 
 Creates 8 static font files by instantiating specific weights from different
@@ -12,7 +11,6 @@ from pathlib import Path
 from enum import IntFlag
 from dataclasses import dataclass
 from typing import Final, Literal, Protocol, cast
-import numpy as np
 
 FAMILY_NAME: Final[Literal["Monaspace Frankenstein"]] = "Monaspace Frankenstein"
 ROOT: Final[Path] = Path(__file__).parent
@@ -22,7 +20,6 @@ TTX_DIR: Final[Path] = ROOT / "fonts" / "Frankenstein" / "TTX"
 
 class FsSelection(IntFlag):
     """OS/2.fsSelection flags."""
-    __value__: np.ubyte
     ITALIC = 1 << 0
     UNDERSCORE = 1 << 1
     BOLD = 1 << 5
@@ -31,7 +28,6 @@ class FsSelection(IntFlag):
 
 class MacStyle(IntFlag):
     """head.macStyle flags."""
-    __value__: np.ubyte
     BOLD = 1 << 0
     ITALIC = 1 << 1
     UNDERLINE = 1 << 2
@@ -198,13 +194,13 @@ def build_variant(v: Variant) -> str:
     # Clean GDEF if it has no useful data after instantiation
     if "GDEF" in font:
         gdef: G_D_E_F_.table_G_D_E_F_ = font["GDEF"].table
-        has_data: bool = any([
+        has_data: bool = any((
             getattr(gdef, "GlyphClassDef", None),
             getattr(gdef, "AttachList", None),
             getattr(gdef, "LigCaretList", None),
             getattr(gdef, "MarkAttachClassDef", None),
             getattr(gdef, "MarkGlyphSetsDef", None),
-        ])
+        ))
         if not has_data:
             del font["GDEF"]
 

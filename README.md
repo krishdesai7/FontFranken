@@ -30,32 +30,12 @@ The build also produces Underlined variants (using `fsSelection` bit 1) for comp
 
 ## Installation
 
-Download and install the TTF files from this repo:
+Download and install the TTF files from [`fonts/Frankenstein/TTF/`](fonts/Frankenstein/TTF/):
 
 - `MonaspaceFrankenstein-Regular.ttf`
 - `MonaspaceFrankenstein-Bold.ttf`
 - `MonaspaceFrankenstein-Italic.ttf`
 - `MonaspaceFrankenstein-BoldItalic.ttf`
-
-The additional Underlined variants are also included if your application can make use of them.
-
-## Building from Source
-
-To rebuild the fonts yourself, you need [uv](https://docs.astral.sh/uv/) and the [Monaspace](https://monaspace.githubnext.com/) variable font TTFs placed in the project root:
-
-```text
-Monaspace Argon Var.ttf
-Monaspace Krypton Var.ttf
-Monaspace Neon Var.ttf
-Monaspace Radon Var.ttf
-Monaspace Xenon Var.ttf
-```
-
-Then run:
-
-```sh
-uv run build_frankenstein.py
-```
 
 ## VS Code / Cursor Setup
 
@@ -91,9 +71,29 @@ Then add `textMateRules` to assign different typefaces to different syntax scope
 
 Everything not matched by a rule renders in the default Regular style (Xenon).
 
+## Building from Source
+
+Requires [uv](https://docs.astral.sh/uv/). Download the [Monaspace](https://monaspace.githubnext.com/) variable font TTFs into `fonts/Monaspace/`:
+
+```text
+fonts/Monaspace/Monaspace Argon Var.ttf
+fonts/Monaspace/Monaspace Krypton Var.ttf
+fonts/Monaspace/Monaspace Neon Var.ttf
+fonts/Monaspace/Monaspace Radon Var.ttf
+fonts/Monaspace/Monaspace Xenon Var.ttf
+```
+
+Then run:
+
+```sh
+uv run build_frankenstein.py
+```
+
+Output goes to `fonts/Frankenstein/TTF/` (installable fonts) and `fonts/Frankenstein/TTX/` (XML for inspection).
+
 ## How the Build Works
 
-1. Loads each source variable font (TTF)
+1. Loads each source variable font (TTF) from `fonts/Monaspace/`
 2. Pins all variation axes (`wght`, `wdth`, `slnt`) using `fontTools.varLib.instancer` to create a static instance
 3. Removes leftover variable font tables (`fvar`, `gvar`, `avar`, `STAT`, etc.)
 4. Sets `OS/2.fsSelection`, `OS/2.usWeightClass`, `head.macStyle`, and `post.italicAngle`

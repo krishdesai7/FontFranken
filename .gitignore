@@ -12,8 +12,7 @@ wheels/
 .DS_Store
 
 # Source variable fonts (not redistributable)
-Monaspace *.ttf
-Monaspace *.ttx
+fonts/Monaspace/
 
 # Generated inspection files
-MonaspaceFrankenstein-*.ttx
+fonts/Frankenstein/TTX/

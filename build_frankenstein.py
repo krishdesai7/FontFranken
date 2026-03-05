@@ -10,7 +10,10 @@ from fontTools.varLib.instancer import instantiateVariableFont, OverlapMode
 from pathlib import Path
 
 FAMILY_NAME = "Monaspace Frankenstein"
-DIR = Path(__file__).parent
+ROOT = Path(__file__).parent
+SRC_DIR = ROOT / "fonts" / "Monaspace"
+TTF_DIR = ROOT / "fonts" / "Frankenstein" / "TTF"
+TTX_DIR = ROOT / "fonts" / "Frankenstein" / "TTX"
 
 # fsSelection bit definitions
 BIT_ITALIC = 0
@@ -116,7 +119,7 @@ def build_variant(source_file, weight, subfamily, fs_bits, mac_bits, weight_clas
     """Build one variant of the Frankenstein font."""
     print(f"  Building {subfamily} from {source_file} @ wght={weight}...")
 
-    font = TTFont(DIR / source_file)
+    font = TTFont(SRC_DIR / source_file)
 
     # Instantiate: pin weight, width=100, slant=0 to create a static font
     instantiateVariableFont(
@@ -163,12 +166,12 @@ def build_variant(source_file, weight, subfamily, fs_bits, mac_bits, weight_clas
     # Output filename
     safe_subfamily = subfamily.replace(" ", "")
     out_name = f"MonaspaceFrankenstein-{safe_subfamily}.ttf"
-    out_path = DIR / out_name
+    out_path = TTF_DIR / out_name
     font.save(out_path)
-    print(f"    -> {out_name}")
+    print(f"    -> fonts/Frankenstein/TTF/{out_name}")
 
     # Also generate TTX for inspection
-    font.saveXML(out_path.with_suffix(".ttx"))
+    font.saveXML(TTX_DIR / f"MonaspaceFrankenstein-{safe_subfamily}.ttx")
 
     font.close()
     return out_name
@@ -177,6 +180,9 @@ def build_variant(source_file, weight, subfamily, fs_bits, mac_bits, weight_clas
 def main():
     print(f"Building {FAMILY_NAME} font family...")
     print()
+
+    TTF_DIR.mkdir(parents=True, exist_ok=True)
+    TTX_DIR.mkdir(parents=True, exist_ok=True)
 
     outputs = []
     for source, weight, subfamily, fs_bits, mac_bits, wc in VARIANTS:

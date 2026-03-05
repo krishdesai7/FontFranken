@@ -28,35 +28,33 @@ The build also produces Underlined variants (using `fsSelection` bit 1) for comp
 | Italic Underlined      | Monaspace Krypton | 600      | 400           |
 | Bold Italic Underlined | Monaspace Radon   | 600      | 700           |
 
-## Prerequisite
+## Installation
 
-[UV-Astral](https://docs.astral.sh/uv/)
+Download and install the TTF files from this repo:
 
-## Source Fonts
+- `MonaspaceFrankenstein-Regular.ttf`
+- `MonaspaceFrankenstein-Bold.ttf`
+- `MonaspaceFrankenstein-Italic.ttf`
+- `MonaspaceFrankenstein-BoldItalic.ttf`
 
-Download the [Monaspace](https://monaspace.githubnext.com/) variable font TTFs and place them in the project root:
+The additional Underlined variants are also included if your application can make use of them.
 
-- `Monaspace Argon Var.ttf`
-- `Monaspace Krypton Var.ttf`
-- `Monaspace Neon Var.ttf`
-- `Monaspace Radon Var.ttf`
-- `Monaspace Xenon Var.ttf`
+## Building from Source
 
-These are variable fonts with axes for weight (200-800), width (100-125), and slant (-11 to 0). The build script instantiates them at specific weight values with width=100 and slant=0 to produce static fonts.
+To rebuild the fonts yourself, you need [uv](https://docs.astral.sh/uv/) and the [Monaspace](https://monaspace.githubnext.com/) variable font TTFs placed in the project root:
 
-## Building
+```text
+Monaspace Argon Var.ttf
+Monaspace Krypton Var.ttf
+Monaspace Neon Var.ttf
+Monaspace Radon Var.ttf
+Monaspace Xenon Var.ttf
+```
+
+Then run:
 
 ```sh
 uv run build_frankenstein.py
-```
-
-This produces 8 static TTF files (and corresponding TTX files for inspection). Install the 4 main TTFs to your system:
-
-```text
-MonaspaceFrankenstein-Regular.ttf
-MonaspaceFrankenstein-Bold.ttf
-MonaspaceFrankenstein-Italic.ttf
-MonaspaceFrankenstein-BoldItalic.ttf
 ```
 
 ## VS Code / Cursor Setup

@@ -11,4 +11,4 @@ dependencies = [
 ]
 
 [tool.pyrefly]
-python-interpeter-path = ".venv/bin/python"
+python-interpreter-path = ".venv/bin/python"

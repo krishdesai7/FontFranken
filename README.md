@@ -4,7 +4,7 @@ A Frankenstein font family that combines different [Monaspace](https://monaspace
 
 ## Why?
 
-Editors like VS Code and Cursor let you assign `fontStyle` per syntax scope via `editor.tokenColorCustomizations`. By mapping each style to a different Monaspace family, you can visually distinguish keywords, comments, functions, and regular code — each rendered in a completely different typeface.
+Editors like VS Code and Cursor let you assign `fontStyle` per syntax scope via `editor.tokenColorCustomizations`. By mapping each style to a different Monaspace family, you can visually distinguish keywords, comments, functions, and regular code, each rendered in a different typeface.
 
 ## Variant Mapping
 

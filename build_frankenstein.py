@@ -242,7 +242,7 @@ def build_variant(v: Variant) -> str:
     print(f"\t-> fonts/Frankenstein/TTF/{out_name}")
 
     # Also generate TTX for inspection
-    font.saveXML(TTX_DIR / f"MonaspaceFrankenstein-{safe_subfamily}.ttx")
+    font.saveXML(TTX_DIR / f"MonaspaceFrankenstein-{safe_subfamily}.ttx") # type: ignore[missing-argument]
 
     font.close()
     return out_name

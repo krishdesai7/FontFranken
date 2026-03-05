@@ -18,34 +18,42 @@ SRC_DIR: Final[Path] = ROOT / "fonts" / "Monaspace"
 TTF_DIR: Final[Path] = ROOT / "fonts" / "Frankenstein" / "TTF"
 TTX_DIR: Final[Path] = ROOT / "fonts" / "Frankenstein" / "TTX"
 
+
 class FsSelection(IntFlag):
     """OS/2.fsSelection flags."""
+
     ITALIC = 1 << 0
     UNDERSCORE = 1 << 1
     BOLD = 1 << 5
     REGULAR = 1 << 6
     USE_TYPO_METRICS = 1 << 7
 
+
 class MacStyle(IntFlag):
     """head.macStyle flags."""
+
     BOLD = 1 << 0
     ITALIC = 1 << 1
     UNDERLINE = 1 << 2
 
+
 @dataclass
 class Variant:
-    source_file: Final[Literal[
-        "Monaspace Xenon Var.ttf",
-        "Monaspace Krypton Var.ttf",
-        "Monaspace Radon Var.ttf",
-        "Monaspace Neon Var.ttf",
-        "Monaspace Argon Var.ttf",
-    ]]
+    source_file: Final[
+        Literal[
+            "Monaspace Xenon Var.ttf",
+            "Monaspace Krypton Var.ttf",
+            "Monaspace Radon Var.ttf",
+            "Monaspace Neon Var.ttf",
+            "Monaspace Argon Var.ttf",
+        ]
+    ]
     weight_value: int
     subfamily: str
     fs_mask: FsSelection
     mac_mask: MacStyle
     weight_class: int
+
 
 VARIANTS: list[Variant] = [
     # 1. Regular = Xenon Regular
@@ -116,16 +124,22 @@ VARIANTS: list[Variant] = [
         "Monaspace Radon Var.ttf",
         600,
         "Bold Italic Underlined",
-        FsSelection.BOLD | FsSelection.ITALIC | FsSelection.UNDERSCORE | FsSelection.USE_TYPO_METRICS,
+        FsSelection.BOLD
+        | FsSelection.ITALIC
+        | FsSelection.UNDERSCORE
+        | FsSelection.USE_TYPO_METRICS,
         MacStyle.BOLD | MacStyle.ITALIC | MacStyle.UNDERLINE,
         700,
     ),
 ]
 
-def set_name_record(name_table: _n_a_m_e.table__n_a_m_e,
-                    name_id: int,
-                    value: str,
-                    platform_ids: list[tuple[int, int, int]] | None = None) -> None:
+
+def set_name_record(
+    name_table: _n_a_m_e.table__n_a_m_e,
+    name_id: int,
+    value: str,
+    platform_ids: list[tuple[int, int, int]] | None = None,
+) -> None:
     """Set a name record across all platforms, or specific ones."""
     if platform_ids is None:
         for record in name_table.names:
@@ -169,6 +183,7 @@ def update_name_table(font: TTFont, subfamily_name: str) -> None:
     for plat_id, enc_id, lang_id in platforms:
         name.setName(ps_name, 3, plat_id, enc_id, lang_id)
 
+
 def build_variant(v: Variant) -> str:
     """Build one variant of the Frankenstein font."""
     print(f"\tBuilding {v.subfamily} from {v.source_file} @ wght={v.weight_value}.")
@@ -177,7 +192,8 @@ def build_variant(v: Variant) -> str:
 
     # Instantiate: pin weight, width=100, slant=0 to create a static font
     instantiateVariableFont(
-        font, {
+        font,
+        {
             "wght": v.weight_value,
             "wdth": 100,
             "slnt": 0,
@@ -194,13 +210,15 @@ def build_variant(v: Variant) -> str:
     # Clean GDEF if it has no useful data after instantiation
     if "GDEF" in font:
         gdef: G_D_E_F_.table_G_D_E_F_ = font["GDEF"].table
-        has_data: bool = any((
-            getattr(gdef, "GlyphClassDef", None),
-            getattr(gdef, "AttachList", None),
-            getattr(gdef, "LigCaretList", None),
-            getattr(gdef, "MarkAttachClassDef", None),
-            getattr(gdef, "MarkGlyphSetsDef", None),
-        ))
+        has_data: bool = any(
+            (
+                getattr(gdef, "GlyphClassDef", None),
+                getattr(gdef, "AttachList", None),
+                getattr(gdef, "LigCaretList", None),
+                getattr(gdef, "MarkAttachClassDef", None),
+                getattr(gdef, "MarkGlyphSetsDef", None),
+            )
+        )
         if not has_data:
             del font["GDEF"]
 
@@ -208,6 +226,7 @@ def build_variant(v: Variant) -> str:
     class OS2Table(Protocol):
         fsSelection: FsSelection
         usWeightClass: int
+
     os2: OS2Table = cast(OS2Table, font["OS/2"])
     os2.fsSelection = v.fs_mask
     os2.usWeightClass = v.weight_class
@@ -215,6 +234,7 @@ def build_variant(v: Variant) -> str:
     # Update head table
     class HeadTable(Protocol):
         macStyle: MacStyle
+
     head: HeadTable = cast(HeadTable, font["head"])
     head.macStyle = v.mac_mask
 
@@ -224,6 +244,7 @@ def build_variant(v: Variant) -> str:
     # Set italic angle for italic variants
     class PostTable(Protocol):
         italicAngle: float
+
     post: PostTable = cast(PostTable, font["post"])
     if v.fs_mask & FsSelection.ITALIC:
         post.italicAngle = -12.0
@@ -238,7 +259,7 @@ def build_variant(v: Variant) -> str:
     print(f"\t-> fonts/Frankenstein/TTF/{out_name}")
 
     # Also generate TTX for inspection
-    font.saveXML(TTX_DIR / f"MonaspaceFrankenstein-{safe_subfamily}.ttx") # type: ignore[missing-argument]
+    font.saveXML(TTX_DIR / f"MonaspaceFrankenstein-{safe_subfamily}.ttx")  # type: ignore[missing-argument]
 
     font.close()
     return out_name
@@ -257,6 +278,7 @@ def main():
     print("Generated files:")
     for f in outputs:
         print(f"\t{f}")
+
 
 if __name__ == "__main__":
     main()

@@ -30,7 +30,7 @@ The build also produces Underlined variants (using `fsSelection` bit 1) for comp
 
 ## Installation
 
-Download and install the TTF files from [`fonts/Frankenstein/TTF/`](fonts/Frankenstein/TTF/):
+Download `MonaspaceFrankenstein.zip` from the [latest release](https://github.com/krishdesai7/FontFranken/releases/latest), unzip, and install the TTF files:
 
 - `MonaspaceFrankenstein-Regular.ttf`
 - `MonaspaceFrankenstein-Bold.ttf`

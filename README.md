@@ -19,8 +19,7 @@ All variants have `fsSelection` bit 7 (`USE_TYPO_METRICS`) set.
 
 The build also produces Underlined variants (using `fsSelection` bit 1) for completeness, but VS Code/Cursor render `underline` as a text decoration rather than selecting a font variant, so these are not usable for font differentiation in practice.
 
-<details>
-<summary>Additional variants (not usable in VS Code/Cursor)</summary>
+### Additional variants (not usable in VS Code/Cursor)
 
 | Variant                | Source Font       | Instance | usWeightClass |
 | ---------------------- | ----------------- | -------- | ------------- |
@@ -28,8 +27,6 @@ The build also produces Underlined variants (using `fsSelection` bit 1) for comp
 | Bold Underlined        | Monaspace Xenon   | 600      | 700           |
 | Italic Underlined      | Monaspace Krypton | 600      | 400           |
 | Bold Italic Underlined | Monaspace Radon   | 600      | 700           |
-
-</details>
 
 ## Prerequisite
 
@@ -55,7 +52,7 @@ uv run build_frankenstein.py
 
 This produces 8 static TTF files (and corresponding TTX files for inspection). Install the 4 main TTFs to your system:
 
-```
+```text
 MonaspaceFrankenstein-Regular.ttf
 MonaspaceFrankenstein-Bold.ttf
 MonaspaceFrankenstein-Italic.ttf

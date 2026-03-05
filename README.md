@@ -10,31 +10,30 @@ Editors like VS Code and Cursor let you assign `fontStyle` per syntax scope via 
 
 All variants have `fsSelection` bit 7 (`USE_TYPO_METRICS`) set.
 
-| fontStyle       | Font Variant     | Source Font      | Instance | usWeightClass |
-|-----------------|------------------|------------------|----------|---------------|
-| *(regular)*     | Regular          | Monaspace Xenon  | 400      | 400           |
-| **bold**        | Bold             | Monaspace Krypton| 400      | 700           |
-| *italic*        | Italic           | Monaspace Radon  | 400      | 400           |
-| ***bold italic*** | Bold Italic    | Monaspace Argon  | 400      | 700           |
+| fontStyle         | Font Variant | Source Font       | Instance | usWeightClass |
+| ----------------- | ------------ | ----------------- | -------- | ------------- |
+| _(regular)_       | Regular      | Monaspace Xenon   | 400      | 400           |
+| **bold**          | Bold         | Monaspace Krypton | 400      | 700           |
+| _italic_          | Italic       | Monaspace Radon   | 400      | 400           |
+| **_bold italic_** | Bold Italic  | Monaspace Argon   | 400      | 700           |
 
 The build also produces Underlined variants (using `fsSelection` bit 1) for completeness, but VS Code/Cursor render `underline` as a text decoration rather than selecting a font variant, so these are not usable for font differentiation in practice.
 
 <details>
 <summary>Additional variants (not usable in VS Code/Cursor)</summary>
 
-| Variant                | Source Font      | Instance | usWeightClass |
-|------------------------|------------------|----------|---------------|
-| Underlined             | Monaspace Neon   | 400      | 400           |
-| Bold Underlined        | Monaspace Xenon  | 600      | 700           |
-| Italic Underlined      | Monaspace Krypton| 600      | 400           |
-| Bold Italic Underlined | Monaspace Radon  | 600      | 700           |
+| Variant                | Source Font       | Instance | usWeightClass |
+| ---------------------- | ----------------- | -------- | ------------- |
+| Underlined             | Monaspace Neon    | 400      | 400           |
+| Bold Underlined        | Monaspace Xenon   | 600      | 700           |
+| Italic Underlined      | Monaspace Krypton | 600      | 400           |
+| Bold Italic Underlined | Monaspace Radon   | 600      | 700           |
 
 </details>
 
-## Prerequisites
+## Prerequisite
 
-- Python 3.14+
-- [uv](https://docs.astral.sh/uv/)
+[UV-Astral](https://docs.astral.sh/uv/)
 
 ## Source Fonts
 
@@ -51,7 +50,7 @@ These are variable fonts with axes for weight (200-800), width (100-125), and sl
 ## Building
 
 ```sh
-uv run python3 build_frankenstein.py
+uv run build_frankenstein.py
 ```
 
 This produces 8 static TTF files (and corresponding TTX files for inspection). Install the 4 main TTFs to your system:

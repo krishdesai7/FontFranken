@@ -61,9 +61,34 @@ Then add `textMateRules` to assign different typefaces to different syntax scope
       "settings": { "fontStyle": "bold" }
     },
     {
+      "name": "Strings → Xenon (regular)",
+      "scope": "string, punctuation.definition.string, string.regexp",
+      "settings": { "fontStyle": "" }
+    },
+    {
       "name": "Functions → Argon (bold italic)",
       "scope": "entity.name.function, support.function, meta.function-call entity.name.function, support.method",
       "settings": { "fontStyle": "bold italic" }
+    },
+    {
+      "name": "Types & Classes → Krypton (bold)",
+      "scope": "entity.name.type, entity.name.class, support.type, support.class, entity.other.inherited-class",
+      "settings": { "fontStyle": "bold" }
+    },
+    {
+      "name": "Constants & Enums → Argon (bold italic)",
+      "scope": "constant, variable.other.constant, variable.other.enummember, support.constant, constant.numeric, constant.language",
+      "settings": { "fontStyle": "bold italic" }
+    },
+    {
+      "name": "Decorators & Annotations → Radon (italic)",
+      "scope": "meta.decorator, punctuation.decorator, entity.name.function.decorator, meta.attribute, storage.type.annotation",
+      "settings": { "fontStyle": "italic" }
+    },
+    {
+      "name": "Doc comments → Radon (italic)",
+      "scope": "comment.block.documentation, string.quoted.docstring",
+      "settings": { "fontStyle": "italic" }
     }
   ]
 }

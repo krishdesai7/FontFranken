@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software or font family, please cite it using the metadata below."
+title: "Monaspace Frankenstein"
+type: software
+authors:
+  - family-names: "Desai"
+    given-names: "Krish"
+repository-code: "https://github.com/krishdesai7/FontFranken"
+url: "https://github.com/krishdesai7/FontFranken"
+abstract: "A font project that combines different Monaspace families into a single unified family called Monaspace Frankenstein, allowing different typefaces to be selected through standard font style variants."
+keywords:
+  - "font"
+  - "typography"
+  - "Monaspace"
+  - "programming fonts"
+  - "VS Code"
+  - "Cursor"
+license: "OFL-1.1"
+version: "v.1.0.0"
+date-released: 2026-03-08
